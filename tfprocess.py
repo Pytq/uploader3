@@ -203,9 +203,6 @@ class TFProcess:
             path = os.path.join(self.root_dir, self.cfg['name'])
             save_path = self.saver.save(self.session, path, global_step=steps)
             print("Model saved in file: {}".format(save_path))
-            leela_path = path + "-" + str(steps) + ".txt"
-            self.save_leelaz_weights(leela_path) 
-            print("Weights saved in file: {}".format(leela_path))
 
     def calculate_test_summaries(self, test_batches, steps):
         sum_accuracy = 0
