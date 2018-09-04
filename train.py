@@ -105,7 +105,7 @@ def main(cmd):
     if not os.path.exists(root_dir):
         os.makedirs(root_dir)
 
-    '''train_parser = ChunkParser(FileDataSrc(train_chunks),
+    train_parser = ChunkParser(FileDataSrc(train_chunks),
             shuffle_size=shuffle_size, sample=SKIP, batch_size=ChunkParser.BATCH_SIZE)
     dataset = tf.data.Dataset.from_generator(
         train_parser.parse, output_types=(tf.string, tf.string, tf.string))
@@ -120,9 +120,9 @@ def main(cmd):
         test_parser.parse, output_types=(tf.string, tf.string, tf.string))
     dataset = dataset.map(ChunkParser.parse_function)
     dataset = dataset.prefetch(2)
-    test_iterator = dataset.make_one_shot_iterator()'''
+    test_iterator = dataset.make_one_shot_iterator()
 
-    filenames = {'train': 'test_bytes', 'test': 'test_bytes'}
+    '''filenames = {'train': 'test_bytes', 'test': 'test_bytes'}
 
     def extract(example):
         features = {
@@ -152,7 +152,7 @@ def main(cmd):
     dataset = dataset.map(extract)
     dataset = dataset.batch(total_batch_size)
     dataset = dataset.prefetch(4)
-    test_iterator = dataset.make_one_shot_iterator()
+    test_iterator = dataset.make_one_shot_iterator()'''
 
     tfprocess = TFProcess(cfg)
     tfprocess.init(dataset, train_iterator, test_iterator)
