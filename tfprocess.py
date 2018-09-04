@@ -22,6 +22,7 @@ import random
 import tensorflow as tf
 import time
 import bisect
+from tensorflow.python.client import timeline
 
 VERSION = 2
 
