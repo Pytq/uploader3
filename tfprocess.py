@@ -31,7 +31,8 @@ class TFProcess:
         self.root_dir = os.path.join(self.cfg['training']['path'], self.cfg['name'])
 
         self.training = tf.placeholder(tf.bool)
-        self.net = Net(cfg, self.training)
+        self.weights = []
+        self.net = Net(cfg, self.training, self.weights)
 
         gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=0.90, allow_growth=True, visible_device_list="{}".format(self.cfg['gpu']))
         config = tf.ConfigProto(gpu_options=gpu_options)
@@ -260,7 +261,7 @@ def bias_variable(shape, name=None):
     return tf.Variable(initial, name=name)
 
 class Net:
-    def __init__(self, cfg, training):
+    def __init__(self, cfg, training, weights):
         self.cfg = cfg
 
         # Network structure
@@ -271,7 +272,7 @@ class Net:
         self.MUTIPLE_CONV = self.cfg['model']['multiple_conv']
         self.PREACT = self.cfg['model']['preact']
         self.batch_norm_count = 0
-        self.weights = []
+        self.weights = weights
         self.training = training
 
     def new_block_key(self):
