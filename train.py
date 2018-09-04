@@ -110,7 +110,7 @@ def main(cmd):
     dataset = tf.data.Dataset.from_generator(
         train_parser.parse, output_types=(tf.string, tf.string, tf.string))
     dataset = dataset.map(ChunkParser.parse_function)
-    dataset = dataset.prefetch(512)
+    dataset = dataset.prefetch(2)
     train_iterator = dataset.make_one_shot_iterator()
 
     shuffle_size = int(shuffle_size*(1.0-train_ratio))
@@ -119,7 +119,7 @@ def main(cmd):
     dataset = tf.data.Dataset.from_generator(
         test_parser.parse, output_types=(tf.string, tf.string, tf.string))
     dataset = dataset.map(ChunkParser.parse_function)
-    dataset = dataset.prefetch(512)
+    dataset = dataset.prefetch(2)
     test_iterator = dataset.make_one_shot_iterator()
 
     tfprocess = TFProcess(cfg)
