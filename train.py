@@ -127,7 +127,6 @@ def main(cmd):
 
     if os.path.exists(os.path.join(root_dir, 'checkpoint')):
         cp = tf.train.latest_checkpoint(root_dir)
-        tfprocess.restore(cp)
 
     # Sweeps through all test chunks statistically
     # Assumes average of 10 samples per test game.
@@ -137,8 +136,6 @@ def main(cmd):
     print("Using {} evaluation batches".format(num_evals))
 
     tfprocess.process_loop(total_batch_size, num_evals)
-
-    tfprocess.save_leelaz_weights(cmd.output)
 
     tfprocess.session.close()
     train_parser.shutdown()
