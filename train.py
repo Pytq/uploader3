@@ -80,7 +80,7 @@ def main(cmd):
     cfg = yaml.safe_load(cmd.cfg.read())
     print(yaml.dump(cfg, default_flow_style=False))
 
-    num_chunks = cfg['dataset']['num_chunks']
+    '''num_chunks = cfg['dataset']['num_chunks']
     train_ratio = cfg['dataset']['train_ratio']
     num_train = int(num_chunks*train_ratio)
     num_test = num_chunks - num_train
@@ -120,7 +120,7 @@ def main(cmd):
         test_parser.parse, output_types=(tf.string, tf.string, tf.string))
     dataset = dataset.map(ChunkParser.parse_function)
     dataset = dataset.prefetch(2)
-    test_iterator = dataset.make_one_shot_iterator()
+    test_iterator = dataset.make_one_shot_iterator()'''
 
 
     filenames = {'train': 'test_bytes', 'test': 'test_bytes'}
