@@ -122,6 +122,39 @@ def main(cmd):
     dataset = dataset.prefetch(2)
     test_iterator = dataset.make_one_shot_iterator()
 
+
+    filenames = {'train': 'train_bytes', 'test': 'test_bytes'}
+
+    def extract(example):
+        features = {
+            'x': tf.FixedLenFeature((), tf.string),
+            '_y': tf.FixedLenFeature((), tf.string),
+            '_z': tf.FixedLenFeature((), tf.string)
+        }
+        parsed_example = tf.parse_single_example(example, features)
+        x = tf.decode_raw(parsed_example['x'], tf.float32)
+        _y = tf.decode_raw(parsed_example['_y'], tf.float32)
+        _z = tf.decode_raw(parsed_example['_z'], tf.float32)
+        x.set_shape([112 * 64])
+        _y.set_shape([1858])
+        _z.set_shape([1])
+        x = tf.reshape(x, [112, 64])
+        return x, _y, _z
+
+    dataset = tf.data.TFRecordDataset(filenames=[filenames['train']],
+                                      compression_type='GZIP')
+    dataset = dataset.map(extract)
+    dataset = dataset.batch(batch_size)
+    dataset = dataset.prefetch(4)
+    train_iterator = dataset.make_one_shot_iterator()
+
+    dataset = tf.data.TFRecordDataset(filenames=[filenames['test']],
+                                      compression_type='GZIP')
+    dataset = dataset.map(extract)
+    dataset = dataset.batch(batch_size)
+    dataset = dataset.prefetch(4)
+    test_iterator = dataset.make_one_shot_iterator()
+
     tfprocess = TFProcess(cfg)
     tfprocess.init(dataset, train_iterator, test_iterator)
 
