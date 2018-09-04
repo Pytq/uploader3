@@ -80,7 +80,7 @@ def main(cmd):
     cfg = yaml.safe_load(cmd.cfg.read())
     print(yaml.dump(cfg, default_flow_style=False))
 
-    '''num_chunks = cfg['dataset']['num_chunks']
+    num_chunks = cfg['dataset']['num_chunks']
     train_ratio = cfg['dataset']['train_ratio']
     num_train = int(num_chunks*train_ratio)
     num_test = num_chunks - num_train
@@ -105,7 +105,7 @@ def main(cmd):
     if not os.path.exists(root_dir):
         os.makedirs(root_dir)
 
-    train_parser = ChunkParser(FileDataSrc(train_chunks),
+    '''train_parser = ChunkParser(FileDataSrc(train_chunks),
             shuffle_size=shuffle_size, sample=SKIP, batch_size=ChunkParser.BATCH_SIZE)
     dataset = tf.data.Dataset.from_generator(
         train_parser.parse, output_types=(tf.string, tf.string, tf.string))
@@ -122,8 +122,6 @@ def main(cmd):
     dataset = dataset.prefetch(2)
     test_iterator = dataset.make_one_shot_iterator()'''
 
-    batch_size = cfg['training']['batch_size']
-    root_dir = os.path.join(cfg['training']['path'], cfg['name'])
     filenames = {'train': 'test_bytes', 'test': 'test_bytes'}
 
     def extract(example):
@@ -145,14 +143,14 @@ def main(cmd):
     dataset = tf.data.TFRecordDataset(filenames=[filenames['train']],
                                       compression_type='GZIP')
     dataset = dataset.map(extract)
-    dataset = dataset.batch(batch_size)
+    dataset = dataset.batch(total_batch_size)
     dataset = dataset.prefetch(4)
     train_iterator = dataset.make_one_shot_iterator()
 
     dataset = tf.data.TFRecordDataset(filenames=[filenames['test']],
                                       compression_type='GZIP')
     dataset = dataset.map(extract)
-    dataset = dataset.batch(batch_size)
+    dataset = dataset.batch(total_batch_size)
     dataset = dataset.prefetch(4)
     test_iterator = dataset.make_one_shot_iterator()
 
