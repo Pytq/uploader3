@@ -122,7 +122,7 @@ def main(cmd):
     dataset = dataset.prefetch(2)
     test_iterator = dataset.make_one_shot_iterator()'''
 
-
+    batch_size = cfg['training']['batch_size']
     filenames = {'train': 'test_bytes', 'test': 'test_bytes'}
 
     def extract(example):
