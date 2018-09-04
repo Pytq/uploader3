@@ -123,6 +123,7 @@ def main(cmd):
     test_iterator = dataset.make_one_shot_iterator()'''
 
     batch_size = cfg['training']['batch_size']
+    root_dir = os.path.join(cfg['training']['path'], cfg['name'])
     filenames = {'train': 'test_bytes', 'test': 'test_bytes'}
 
     def extract(example):
