@@ -123,7 +123,7 @@ def main(cmd):
     test_iterator = dataset.make_one_shot_iterator()
 
 
-    filenames = {'train': 'train_bytes', 'test': 'test_bytes'}
+    filenames = {'train': 'test_bytes', 'test': 'test_bytes'}
 
     def extract(example):
         features = {
